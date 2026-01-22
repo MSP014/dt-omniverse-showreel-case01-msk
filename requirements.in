@@ -1,0 +1,13 @@
+# Dev Tools
+pip-tools
+pre-commit
+bandit
+pip-audit
+black
+isort
+flake8
+pytest
+
+# Script Dependencies (jira_link.py)
+requests
+python-dotenv
