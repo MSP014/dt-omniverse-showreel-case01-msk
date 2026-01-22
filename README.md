@@ -1,13 +1,13 @@
 # Case 01: Moskovsky Av (Smart Stops)
 
 > **Role:** L1 Digital Twin (Urban Monitoring)
-> **Stack:** Houdini PDG, Omniverse (USD/Python), Jira Integration
+> **Stack:** Houdini, Omniverse (USD/Python), Jira Integration
 
 ---
 
 ## 🚀 What You'll Learn
 
-* **Houdini PDG Automation:** How to procedurally generate city blocks and export optimised USD.
+* **Houdini:** How to procedurally generate city blocks and export optimised USD.
 * **USD Composition:** Structuring layers (`mesh_`, `mat_`) for efficient real-time rendering in Omniverse.
 * **Python Tooling:** Building custom Extensions to visualize real-time data (Bus Arrivals) on 3D geometry.
 
