@@ -10,11 +10,13 @@
 
 ---
 
-## 🚀 What You'll Learn
+## 🎯 Technical Highlights
 
-* **Houdini:** How to procedurally generate city blocks and export optimised USD.
-* **USD Composition:** Structuring layers (`mesh_`, `mat_`) for efficient real-time rendering in Omniverse.
-* **Python Tooling:** Building custom Extensions to visualize real-time data (Bus Arrivals) on 3D geometry.
+*This setup demonstrates an **L1 Digital Twin (Monitoring)**, focusing on one-way data visualisation rather than bidirectional control.*
+
+* **Houdini Proceduralism:** City block generation with optimised USD export pipelines.
+* **USD Composition:** Layered architecture (`mesh_`, `mat_`) for real-time Omniverse performance.
+* **Custom Extensions:** Python-based visualisation of real-time telemetry (Bus Arrivals) on 3D geometry.
 
 ## 👁️ Visual Proof
 
@@ -24,11 +26,11 @@
 2. **Pipeline Flow:** `![Data Flow](docs/img/pipeline_diagram.png)`
 3. **Houdini Graph:** `![Houdini PDG](docs/img/houdini_pdg.png)`
 
-## 🏗️ Engineering Trace
+## 🏗️ Architecture & Decisions
 
-We don't just write code; we design systems.
+This project follows a **README-driven structure** to manage the complexity of hybrid Houdini/Omniverse pipelines.
 
-* [**Read our Engineering Decisions (ADRs)**](docs/adr/) for deep dives into Naming, Security, and Architecture.
+* [**View Architecture Decision Records (ADR)**](docs/adr/) – Design notes on Naming Conventions, Security Guardrails, and Dependency Locking.
 
 ---
 
