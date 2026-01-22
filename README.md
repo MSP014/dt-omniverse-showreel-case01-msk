@@ -1,5 +1,10 @@
 # Case 01: Moskovsky Av (Smart Stops)
 
+> [!WARNING]
+> **Work in Progress:** This project is currently under active development. Some links and assets may be placeholders.
+
+---
+
 > **Role:** L1 Digital Twin (Urban Monitoring)
 > **Stack:** Houdini, Omniverse (USD/Python), Jira Integration
 
@@ -36,7 +41,7 @@ To keep this repository lightweight (GitHub < 1GB), heavy binary assets are stor
 
 ## 🛠️ Setup & Installation
 
-1. **Clone:** `git clone https://github.com/USER/dt-omniverse-showreel-case01-msk.git`
+1. **Clone:** `git clone https://github.com/MSP014/dt-omniverse-showreel-case01-msk.git`
 2. **Env:** Create conda env: `conda create -n case01-env python=3.10`
 3. **Deps:** `pip install -r requirements.txt`
 4. **Hooks:** `pre-commit install`
