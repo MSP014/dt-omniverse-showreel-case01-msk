@@ -18,6 +18,10 @@ dist/
 .idea/
 .vscode/
 .DS_Store
+*.code-workspace
+
+# --- AI Protocol (Local Only) ---
+protocols/
 
 # --- Houdini / Omniverse Heavy Assets (Ignored) ---
 # We keep these LOCAL or on External Storage to keep GitHub repo lightweight.
