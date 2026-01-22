@@ -50,4 +50,4 @@ To keep this repository lightweight (GitHub < 1GB), heavy binary assets are stor
 
 ## 📜 Changelog
 
-* **2026-01-22:** Initial repository bootstrap. Established "Gold Standard" structure (ADRs, Pre-commit, Hybrid Access).
+* **2026-01-22:** Initial repository bootstrap. Established **Nvidia Showreel Protocol** (ADRs, Pre-commit, Hybrid Access).
