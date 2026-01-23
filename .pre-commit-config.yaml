@@ -46,10 +46,10 @@ repos:
         pass_filenames: false
         always_run: false
 
-      # Dependency Vulnerability Scanning (Environment Direct)
+      # Dependency Vulnerability Scanning (File-Based with Performance Optimizations)
       - id: pip-audit
         name: pip-audit
-        entry: C:/Users/SpeLL/anaconda3/envs/case01-env/python.exe -m pip_audit -l
+        entry: C:/Users/SpeLL/anaconda3/envs/case01-env/python.exe -m pip_audit -r requirements.txt --desc=off --progress-spinner=off
         language: system
         pass_filenames: false
         always_run: true
