@@ -53,7 +53,7 @@ This project follows a **README-driven structure** to manage the complexity of h
 ```text
 .
 ├── docs/        # ADRs and knowledge base
-├── plans/       # Implementation plans & tech debt
+│   ├── plans/   # Implementation plans & tech debt
 ├── src/         # Core logic and scripts
 ├── tests/       # Validation and testing suite
 └── tools/       # Internal pipeline utilities
@@ -66,7 +66,7 @@ This project follows a **README-driven structure** to manage the complexity of h
 To keep this repository lightweight (GitHub < 1GB), heavy binary assets are stored externally.
 
 - [**Download Heavy Assets (One Drive / S3 Link TBD)**](https://example.com/placeholder)
-  - Includes: `*.usd`crates, `*.hip` source files, and high-res textures.
+  - Includes: `*.usd` crates, `*.hip` source files, and high-res textures.
 
 ## 🛠️ Setup & Installation
 
