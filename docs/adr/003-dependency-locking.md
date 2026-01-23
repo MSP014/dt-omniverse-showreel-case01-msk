@@ -6,7 +6,7 @@ Accepted
 
 ## Context
 
-Python environments are fragile. "It works on my machine" often means "I have a package version you don't." To ensure all agents (Alistair, Edward, User) run exactly the same code, we need deterministic environments.
+To ensure that Urban Digital Twin simulations and transport data processing run predictably across all environments (Alistair, User, CI), we need deterministic dependency management.
 
 ## Decision
 
@@ -14,14 +14,14 @@ We enforce a **"One Env Per Case"** policy with strict locking:
 
 ### 1. Isolation
 
-* Each Case has its own Anaconda environment (e.g., `case01-env`, `msk-env`).
+* **Environment Name:** `case01-env` (or `msk-env`)
 * **NEVER** install packages into the global Python or base Conda environment.
 
 ### 2. Dependency Locking
 
 We use `pip-tools` for deterministic builds.
 
-* **Source of Truth:** `requirements.in` (High-level deps, e.g., `requests`, `pandas`).
+* **Source of Truth:** `requirements.in` (High-level deps, e.g., `requests`, `pandas`, `geojson`).
 * **Lockfile:** `requirements.txt` (Generated via `pip-compile`). Contains exact versions + hashes.
 * **Workflow:**
     1. Edit `requirements.in`.

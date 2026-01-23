@@ -1,4 +1,4 @@
-# Case 01: Moskovsky Av (Smart Stops)
+# Case 01: Moskovsky Av (Urban Monitoring Digital Twin)
 
 > [!WARNING]
 > **Work in Progress:** This project is currently under active development. Some links and assets may be placeholders.
@@ -31,6 +31,17 @@
 This project follows a **README-driven structure** to manage the complexity of hybrid Houdini/Omniverse pipelines.
 
 * [**View Architecture Decision Records (ADR)**](docs/adr/) – Design notes on Naming Conventions, Security Guardrails, and Dependency Locking.
+
+## 📂 Repository Structure
+
+```text
+.
+├── docs/        # ADRs and knowledge base
+├── plans/       # Implementation plans & tech debt
+├── src/         # Core logic and scripts
+├── tests/       # Validation and testing suite
+└── tools/       # Internal pipeline utilities
+```
 
 ---
 

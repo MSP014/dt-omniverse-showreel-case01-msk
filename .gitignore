@@ -1,68 +1,66 @@
-# Hybrid Access Strategy - Case 01
-
-# --- Python ---
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.env
-.venv
-env/
-venv/
-ENV/
-build/
-dist/
-*.egg-info/
-
-# --- Tools ---
-.idea/
-.vscode/
-.DS_Store
-*.code-workspace
+# NVIDIA Showreel - Unified .gitignore
+# Estate Manager: Higgins
 
 # --- AI Protocol (Local Only) ---
 protocols/
 
-# --- Houdini / Omniverse Heavy Assets (Ignored) ---
-# We keep these LOCAL or on External Storage to keep GitHub repo lightweight.
+# --- Heavy Work Directories (Project Structure) ---
 assets/
 cache/
-render_out/
-tex/
+Refs/
+_incoming/
 geo/
-sim/
+HIP/
+OUT/
 
-# Large Binary Crates
+# --- Source/Project Files (Software Specific) ---
+AE/
+PRJ/
+AI/
+
+# --- Media & Renders (Heavy) ---
+EXR/
+MP4/
+GIF/
+MOV/
+PNG/
+
+# --- File Extensions (Specific Blocklist) ---
+# USD (Heavy Binary Crates blocked, ASCII allowed if strictly needed, but guarding general USD)
+*.usd
+*.usdc
+*.usdz
+
+# Houdini
 *.hip
 *.hipnc
 *.hiplc
 *.bgeo
 *.bgeo.sc
-*.geo
-*.geo.sc
 *.vdb
-*.usd
-*.usda
-*.usdc
-*.usdz
 *.abc
-*.obj
-*.fbx
+
+# Adobe / Image
+*.aep
+*.prproj
+*.psd
+*.ai
 *.exr
-*.rat
-*.pic
+*.hdr
 
-# Heavy Media
-*.mp4
-*.mov
-*.avi
-*.png
-*.jpg
-*.jpeg
-*.tga
-*.tif
-*.tiff
-# Exception: Documentation images take precedence (force add if needed, but prefer docs/img for optimized ones)
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+.pytest_cache/
 
-# --- Documentation ---
-# Allow everything in docs/ except heavy media clearly not meant for repo
+# --- Tools & System ---
+.idea/
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
