@@ -18,13 +18,14 @@
 * **USD Composition:** Layered architecture (`mesh_`, `mat_`) for real-time Omniverse performance.
 * **Custom Extensions:** Python-based visualisation of real-time telemetry (Bus Arrivals) on 3D geometry.
 
-## 👁️ Visual Proof
+## 👁️ Visual Proof: Moskovsky Av. 150
 
-> *Placeholders for future GIFs - Replace with actual optimised media*
+*Evolution of a Digital Twin: From original reference to procedural generation and final Omniverse integration.*
 
-1. **Smart Stop HUD:** `![HUD Demo](docs/img/hud_demo.gif)`
-2. **Pipeline Flow:** `![Data Flow](docs/img/pipeline_diagram.png)`
-3. **Houdini Graph:** `![Houdini PDG](docs/img/houdini_pdg.png)`
+| Original Reference | Houdini Procedural Render | Omniverse Digital Twin |
+| :--- | :--- | :--- |
+| ![Original](docs/img/Moskovskiy_av_150/msk_150_original.jpg) | ![Houdini Render](docs/img/Moskovskiy_av_150/msk_150_render.jpg) | ![Omniverse](docs/img/Moskovskiy_av_150/msk_150_omniverse.jpg) |
+| *Real-world urban context* | *Procedural geometry & shading* | *Real-time visualisation & FUI* |
 
 ## 🏗️ Architecture & Decisions
 
