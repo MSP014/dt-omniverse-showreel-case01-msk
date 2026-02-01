@@ -1,7 +1,6 @@
 # NVIDIA Showreel - Unified .gitignore
-# Estate Manager: Higgins
 
-# --- AI Protocol (Local Only) ---
+# --- Internal Protocols ---
 protocols/
 
 # --- Heavy Work Directories (Project Structure) ---
