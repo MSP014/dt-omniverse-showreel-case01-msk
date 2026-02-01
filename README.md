@@ -47,16 +47,19 @@ The digital twin integrates live transport telemetry to display **real-time bus 
 This project follows a **README-driven structure** to manage the complexity of hybrid Houdini/Omniverse pipelines.
 
 - [**View Architecture Decision Records (ADR)**](docs/adr/) – Design notes on Naming Conventions, Security Guardrails, and Dependency Locking.
+- [**Explore Knowledge Base**](docs/knowledge_base/) – Theoretical framework and Digital Twin maturity classification.
 
 ## 📂 Repository Structure
 
 ```text
 .
-├── docs/        # ADRs and knowledge base
-│   ├── plans/   # Implementation plans & tech debt
-├── src/         # Core logic and scripts
-├── tests/       # Validation and testing suite
-└── tools/       # Internal pipeline utilities
+├── docs/                # Project documentation
+│   ├── adr/             # Architecture Decision Records
+│   ├── knowledge_base/  # Theoretical framework & research
+│   └── plans/           # Implementation plans & tech debt
+├── src/                 # Core logic and scripts
+├── tests/               # Validation and testing suite
+└── tools/               # Internal pipeline utilities
 ```
 
 ---
