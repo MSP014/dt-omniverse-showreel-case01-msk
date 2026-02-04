@@ -1,9 +1,18 @@
+import argparse
 import os
+import random  # nosec
 import sys
+import textwrap
 from base64 import b64encode
 
 import requests
 from dotenv import load_dotenv
+
+# Configure stdout for UTF-8 (Windows encoding fix)
+if sys.platform == "win32":
+    import io
+
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
 
 
 def get_jira_session():
@@ -51,11 +60,18 @@ def fetch_issues(project_key):
 
     issues = []
     next_page_token = None
+
     while True:
-        payload = {"jql": jql, "fields": fields.split(","), "maxResults": 50}
+        payload = {
+            "jql": jql,
+            "fields": fields.split(","),
+            "maxResults": 50,
+        }
+
         if next_page_token:
             payload["nextPageToken"] = next_page_token
 
+        # Use /search/jql endpoint with token pagination
         resp = requests.post(
             f"{base_url}/rest/api/3/search/jql",
             headers=headers,
@@ -68,10 +84,11 @@ def fetch_issues(project_key):
 
         data = resp.json()
         batch = data.get("issues", [])
-        issues.extend(batch)
+        if batch:
+            issues.extend(batch)
 
         next_page_token = data.get("nextPageToken")
-        if not next_page_token or data.get("isLast", False):
+        if not next_page_token:
             break
 
     return issues
@@ -112,7 +129,15 @@ def parse_description(text):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Jira to Markdown Sync")
+    parser.add_argument(
+        "--save", action="store_true", help="Save output to file (default is dry-run)"
+    )
+    args = parser.parse_args()
+
     project_key = "MSK"
+    output_file = "docs/plans/case 01 - implementation.md"
+
     issues = fetch_issues(project_key)
 
     all_map = {}
@@ -124,13 +149,17 @@ def main():
         raw_desc = extract_text(fields.get("description", ""))
         obj, dod = parse_description(raw_desc)
 
+        priority_name = "Medium"  # Default
+        if fields.get("priority"):
+            priority_name = fields["priority"]["name"]
+
         all_map[issue["key"]] = {
             "key": issue["key"],
             "summary": fields["summary"],
             "status": fields["status"]["name"],
             "type": fields["issuetype"]["name"],
-            "priority": fields["priority"]["name"],
-            "priority_val": priority_order.get(fields["priority"]["name"], 99),
+            "priority": priority_name,
+            "priority_val": priority_order.get(priority_name, 99),
             "parent": (
                 fields.get("parent", {}).get("key") if fields.get("parent") else None
             ),
@@ -163,7 +192,7 @@ def main():
     output.append("")
     output.append(f"**Jira Project**: {project_key}")
     output.append("**Status**: In Progress")
-    output.append("**Last Updated**: 2026-02-01")
+    output.append("**Last Updated**: 2026-02-04")
     output.append("")
     output.append("---")
     output.append("")
@@ -180,35 +209,46 @@ def main():
 
         res.append(f"{prefix} {icon} [{item['key']}] {item['summary']}")
         res.append("")
-        res.append(f"**Status**: {format_status(item['status'])}")
-        if item["estimate"]:
-            res.append(f"**Estimate**: {item['estimate']}")
 
-        res.append(f"**Objective**: {item['objective']}")
+        # Add metadata line
+        meta = []
+        meta.append(f"**Status**: {format_status(item['status'])}")
+        meta.append(f"**Priority**: {item['priority']}")
+        if item["estimate"]:
+            meta.append(f"**Estimate**: {item['estimate']}")
+
+        res.append(" | ".join(meta))
+
+        # Only show objective if it's not effectively empty
+        # or just repeating the summary
+        if (
+            item["objective"]
+            and item["objective"] != "N/A"
+            and len(item["objective"]) > 5
+        ):
+            wrapped_obj = textwrap.fill(
+                f"**Objective**: {item['objective']}", width=80, subsequent_indent="  "
+            )
+            res.append(wrapped_obj)
 
         if item["children"]:
-            res.append("")
-            res.append("**Decomposition:**")
-            res.append("")
             # Sort children by priority then key
             item["children"].sort(key=lambda x: (x["priority_val"], x["key"]))
             for child in item["children"]:
+                res.append("")
                 res.append(render_issue(child, level + 1))
 
         if item["dod"]:
             res.append("")
             res.append("**Definition of Done:**")
-            res.append("")
             res.append(f"{item['dod']}")
 
         if item["logged"]:
-            res.append("")
             res.append(f"**Logged**: {item['logged']}")
 
         return "\n".join(res)
 
-    # Selection logic: Epic is included if it's in an active status itself
-    # OR has active children
+    # Selection logic: included if active or has active children
     active_statuses = ["to do", "in progress", "done"]
     active_epics = []
 
@@ -225,7 +265,14 @@ def main():
     for epic in active_epics:
         output.append(f"## 🧩 EPIC: {epic['summary']} ({epic['key']})")
         output.append("")
-        output.append(f"**Status**: {format_status(epic['status'])}")
+        output.append(
+            " | ".join(
+                [
+                    f"**Status**: {format_status(epic['status'])}",
+                    f"**Priority**: {epic['priority']}",
+                ]
+            )
+        )
         output.append("")
 
         # Sort children
@@ -240,15 +287,15 @@ def main():
     # Progress Summary
     output.append("## 📊 Progress Summary")
     output.append("")
-    output.append("| Epic | Status | Completion |")
-    output.append("| --- | --- | --- |")
+    output.append("| Epic | Status | Priority | Completion |")
+    output.append("| --- | --- | --- | --- |")
     for epic in active_epics:
         total = len(epic["children"])
         done = len([c for c in epic["children"] if c["status"].lower() == "done"])
         perc = int((done / total) * 100) if total > 0 else 0
         output.append(
             f"| {epic['summary']} | {format_status(epic['status'])} | "
-            f"{perc}% ({done}/{total}) |"
+            f"{epic['priority']} | {perc}% ({done}/{total}) |"
         )
 
     output.append("")
@@ -262,20 +309,47 @@ def main():
     active_tasks = [
         i
         for i in all_map.values()
-        if i["type"] != "Epic" and i["status"].lower() in ["to do", "in progress"]
+        if (i["type"] != "Epic" and i["status"].lower() in ["to do", "in progress"])
     ]
+    # Sort by priority val (asc), then by created key (desc/asc)
     active_tasks.sort(key=lambda x: (x["priority_val"], x["key"]))
-    for i, task in enumerate(active_tasks[:3]):
+
+    for i, task in enumerate(active_tasks[:5]):
         output.append(
             f"{i+1}. **{task['key']}**: {task['summary']} "
             f"(Priority: {task['priority']})"
         )
 
-    with open(
-        "docs/plans/case 01 - implementation.md", "w", encoding="utf-8", newline="\n"
-    ) as f:
+    if not args.save:
+        print(f"[DRY RUN] Generated {len(output)} lines of content.")
+        print(
+            f"[DRY RUN] Active Epics: {len(active_epics)} | "
+            f"Active Tasks: {len(active_tasks)}"
+        )
+        print("--- SAMPLE OUTPUT START ---")
+
+        # Random Sample
+        if active_epics:
+            epic = random.choice(active_epics)  # nosec  # nosec
+            print(f"## 🧩 EPIC: {epic['summary']} ({epic['key']})")
+            if epic.get("active_children"):
+                child = random.choice(epic["active_children"])  # nosec  # nosec
+                print(render_issue(child, 3))
+            else:
+                print("(Sample epic has no active children)")
+        elif active_tasks:
+            task = random.choice(active_tasks)  # nosec
+            print(render_issue(task, 1))
+        else:
+            print("(No active tasks or epics found to sample)")
+
+        print("--- SAMPLE OUTPUT END ---")
+        print("[DRY RUN] Run with --save to write to disk.")
+        return
+
+    with open(output_file, "w", encoding="utf-8", newline="\n") as f:
         f.write("\n".join(output).strip() + "\n")
-    print("Done.")
+    print(f"Done. Wrote to {output_file}")
 
 
 if __name__ == "__main__":
